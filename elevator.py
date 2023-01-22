@@ -1,17 +1,24 @@
-import time
-class elevator:
+import time, threading
+
+class elevator(threading.Thread):
 
     inputs = []
+    
     up = []
+    
     down = []
+    
     head = 1
+    
     direction = "DOWN"
+
     seekProcedure = []
 
-    def __init__(self, head, staticList = []):
+    def __init__(self, head = 1, staticList = []):
+        threading.Thread.__init__(self)
         self.inputs.extend(staticList)
         self.head = head
-        self.move()
+        self.start()
 
     def inputsHandling(self):
         while not len(self.inputs) == 0:
@@ -24,19 +31,21 @@ class elevator:
                 if not self.down.__contains__(input):
                     self.down.append(input)
                     self.down.sort(reverse = True)
-    def move(self):
+                    
+    def run(self):
         while(True):
             self.inputsHandling()
             if len(self.up) == 0 and len(self.down) == 0:
                 self.direction = "both"
-                break
+                continue
+                
 
             if self.direction == "UP" or self.direction == "both":
                 if not len(self.up) == 0:
                     goalFloor = self.up[0]
                     if goalFloor == self.head:
                         self.seekProcedure.append(goalFloor)
-                        print("arrived to floor" + str(goalFloor))
+                        print("arrived to floor " + str(goalFloor))
                         self.up.pop(0)
                     else:
                         self.head = self.head + 1
@@ -49,7 +58,7 @@ class elevator:
                     goalFloor = self.down[0]
                     if goalFloor == self.head:
                         self.seekProcedure.append(goalFloor)
-                        print("arrived to floor" + str(goalFloor))
+                        print("arrived to floor " + str(goalFloor))
                         self.down.pop(0)
                     else:
                         self.head = self.head - 1
@@ -60,6 +69,3 @@ class elevator:
 
     def addInput(self, floor):
         self.inputs.append(floor)
-
-e = elevator(head = 7,staticList = [5,7,2,6,1,9,12])
-print("stop")
