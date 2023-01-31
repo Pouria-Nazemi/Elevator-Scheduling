@@ -1,4 +1,4 @@
-import elevator
+from elevator import elevator
 
 elevators = []
 
@@ -10,8 +10,6 @@ elevators.append(elevator1)
 elevators.append(elevator2)
 elevators.append(elevator3)
 
-for elevator in elevators:
-    print(elevator.name)
     
 def inputElePlan(floor):
     minDistance = 100
@@ -28,6 +26,7 @@ def inputElePlan(floor):
             if eachElevator.direction == "UP" or eachElevator.direction == "both":
                 distance = floor - eachElevator.head
             elif eachElevator.direction == "DOWN":
+                print(eachElevator.name + " check")
                 distance = (eachElevator.head - eachElevator.down[-1]) * 2 + floor - eachElevator.head
                 
         if(minDistance > distance):
@@ -44,4 +43,4 @@ def getStatus(elevators):
     for elevator in elevators:
         print("head of " + str(elevator.name) + " head: " + str(elevator.head) + " direction " + elevator.direction)
 
-inputElePlan(2)
+inputElePlan(15)

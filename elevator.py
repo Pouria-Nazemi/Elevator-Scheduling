@@ -1,21 +1,18 @@
 import time, threading
 
+
 class elevator(threading.Thread):
 
-    inputs = []
-    
-    up = []
-    
-    down = []
-    
-    head = 1
-    
-    direction = "DOWN"
-
-    seekProcedure = []
-
-    def __init__(self, head = 1, staticList = []):
+    def __init__(self, name, head=1, staticList=[]):
         threading.Thread.__init__(self)
+
+        self.inputs = []
+        self.up = []
+        self.down = []
+        self.head = 1
+        self.direction = "both"
+        self.seekProcedure = []
+        self.name = ("elevator" + str(name))
         self.inputs.extend(staticList)
         self.head = head
         self.start()
@@ -30,27 +27,26 @@ class elevator(threading.Thread):
             else:
                 if not self.down.__contains__(input):
                     self.down.append(input)
-                    self.down.sort(reverse = True)
-                    
+                    self.down.sort(reverse=True)
+
     def run(self):
-        while(True):
+        while (True):
             self.inputsHandling()
             if len(self.up) == 0 and len(self.down) == 0:
                 self.direction = "both"
                 continue
-                
 
             if self.direction == "UP" or self.direction == "both":
                 if not len(self.up) == 0:
                     goalFloor = self.up[0]
                     if goalFloor == self.head:
                         self.seekProcedure.append(goalFloor)
-                        print("arrived to floor " + str(goalFloor))
+                        print(self.name + " arrived to floor " + str(goalFloor) + "\n")
                         self.up.pop(0)
                     else:
                         self.head = self.head + 1
                 else:
-                    print("down")
+                    #    print("down")
                     self.direction = "DOWN"
 
             if self.direction == "DOWN" or self.direction == "both":
@@ -58,12 +54,12 @@ class elevator(threading.Thread):
                     goalFloor = self.down[0]
                     if goalFloor == self.head:
                         self.seekProcedure.append(goalFloor)
-                        print("arrived to floor " + str(goalFloor))
+                        print(self.name + " arrived to floor " + str(goalFloor) + "\n")
                         self.down.pop(0)
                     else:
                         self.head = self.head - 1
                 else:
-                    print("up")
+                    # print("up")
                     self.direction = "UP"
             time.sleep(1.0)
 
