@@ -41,12 +41,11 @@ class elevator(threading.Thread):
                     goalFloor = self.up[0]
                     if goalFloor == self.head:
                         self.seekProcedure.append(goalFloor)
-                        print(self.name + " arrived to floor " + str(goalFloor) + "\n")
+                        print(self.name + " arrived to floor " + str(goalFloor) + "\n") #TODO
                         self.up.pop(0)
                     else:
                         self.head = self.head + 1
                 else:
-                    #    print("down")
                     self.direction = "DOWN"
 
             if self.direction == "DOWN" or self.direction == "both":
@@ -54,14 +53,13 @@ class elevator(threading.Thread):
                     goalFloor = self.down[0]
                     if goalFloor == self.head:
                         self.seekProcedure.append(goalFloor)
-                        print(self.name + " arrived to floor " + str(goalFloor) + "\n")
+                        print(self.name + " arrived to floor " + str(goalFloor) + "\n") #TODO
                         self.down.pop(0)
                     else:
                         self.head = self.head - 1
                 else:
-                    # print("up")
                     self.direction = "UP"
-            time.sleep(2) #TODO change time
+            time.sleep(3) #TODO change time
 
     def addInput(self, floor):
         self.inputs.append(floor)

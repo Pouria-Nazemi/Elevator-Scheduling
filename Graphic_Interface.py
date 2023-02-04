@@ -1,6 +1,38 @@
 from tkinter import *
+from elevators import elevator
+
+def inputElePlan(floor):
+    minDistance = 100
+    for eachElevator in elevators:
+        distance = 0
+        if (floor - eachElevator.head) < 0:
+
+            if eachElevator.direction == "DOWN" or eachElevator.direction == "both":
+                distance = abs(floor - eachElevator.head)
+            elif eachElevator.direction == "UP":
+                if len(eachElevator.up) != 0: #TODO
+                    distance = (eachElevator.up[-1] - eachElevator.head) * 2 + abs(floor - eachElevator.head)
+
+        elif (floor - eachElevator.head) > 0:
+            if eachElevator.direction == "UP" or eachElevator.direction == "both":
+                distance = floor - eachElevator.head
+            elif eachElevator.direction == "DOWN":
+                if len(eachElevator.down) != 0: #TODO
+                    distance = (eachElevator.head - eachElevator.down[-1]) * 2 + floor - eachElevator.head
+
+        if (minDistance > distance):
+            minDistance = distance
+            choosenElevator = eachElevator
+
+    choosenElevator.addInput(floor)
+    # for eachElevator in elevators: #TODO set in elevator graphic number of floor and direction
+        # print("head of " + str(eachElevator.name) + " head: " + str(
+        #     eachElevator.head) + " direction " + eachElevator.direction)
+    print(str(choosenElevator.name) + str(" floor:* ") + str(floor) + "\n") #TODO set in External  Request
+
 
 floors = [
+    "0",
     "1",
     "2",
     "3",
@@ -17,7 +49,15 @@ floors = [
     "14",
     "15"
 ]
+elevators = []
 
+elevator1 = elevator(name=1, head=0, staticList=[2, 5, 6, 1, 12])
+elevator2 = elevator(name=2, head=8)
+elevator3 = elevator(name=3, head=12, staticList=[3, 4])
+
+elevators.append(elevator1)
+elevators.append(elevator2)
+elevators.append(elevator3)
 root = Tk()
 root.title("Elevator Algorithm")
 root.geometry("600x530")
@@ -33,14 +73,13 @@ ele1_text.place(x=50, y=5)
 ele1_floorNumber = StringVar()
 ele1_floorLabel = Label(root, textvariable=ele1_floorNumber, bg='red', font=('Cursive', 16, 'bold'))
 ele1_floorLabel.place(x=50, y=50)
-ele1_floor = 1
-ele1_floorNumber.set(f"Floor: {ele1_floor}")
+ele1_floorNumber.set(f"Floor: {elevator1.head}")
 
 
 def ele1_showLabel():
     if ele1_floorList.get() != 'Floors':
         ele1_selectedFloorLabel.config(text=f'{ele1_floorList.get()} is selected')
-        print(ele1_floorList.get())
+        elevator1.addInput(int(ele1_floorList.get()))
 
 
 ele1_selectedFloorLabel = Label(root, text="Select Floor")
@@ -64,14 +103,13 @@ ele2_text.place(x=250, y=5)
 ele2_floorNumber = StringVar()
 ele2_floorLabel = Label(root, textvariable=ele2_floorNumber, bg='green', font=('Cursive', 16, 'bold'))
 ele2_floorLabel.place(x=250, y=50)
-ele2_floor = 6
-ele2_floorNumber.set(f"Floor: {ele2_floor}")
+ele2_floorNumber.set(f"Floor: {elevator2.head}")
 
 
 def ele2_showLabel():
     if ele2_floorList.get() != 'Floors':
         ele2_selectedFloorLabel.config(text=f'{ele2_floorList.get()} is selected')
-        print(ele2_floorList.get())
+        elevator2.addInput(int(ele2_floorList.get()))
 
 
 ele2_selectedFloorLabel = Label(root, text="Select Floor")
@@ -95,14 +133,13 @@ ele3_text.place(x=450, y=5)
 ele3_floorNumber = StringVar()
 ele3_floorLabel = Label(root, textvariable=ele3_floorNumber, bg='blue', font=('Cursive', 16, 'bold'))
 ele3_floorLabel.place(x=450, y=50)
-ele3_floor = 15
-ele3_floorNumber.set(f"Floor: {ele3_floor}")
+ele3_floorNumber.set(f"Floor: {elevator3.head}")
 
 
 def ele3_showLabel():
     if ele3_floorList.get() != 'Floors':
         ele3_selectedFloorLabel.config(text=f'{ele3_floorList.get()} is selected')
-        print(ele3_floorList.get())
+        elevator3.addInput(int(ele3_floorList.get()))
 
 
 ele3_selectedFloorLabel = Label(root, text="Select Floor")
@@ -128,7 +165,7 @@ external_text.place(x=210, y=235)
 def external_showLabel():
     if external_floorList.get() != 'Floors':
         external_selectedFloorLabel.config(text=f'{external_floorList.get()} is selected')
-        print(external_floorList.get())
+        inputElePlan(int(external_floorList.get()))
 
 
 external_selectedFloorLabel = Label(root, text="Select Floor")
