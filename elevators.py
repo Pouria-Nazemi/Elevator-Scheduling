@@ -41,6 +41,7 @@ class elevator(threading.Thread):
                     goalFloor = self.up[0]
                     if goalFloor == self.head:
                         self.seekProcedure.append(goalFloor)
+                        # from Graphic_Interface import inputElePlan
                         print(self.name + " arrived to floor " + str(goalFloor) + "\n") #TODO
                         self.up.pop(0)
                     else:
