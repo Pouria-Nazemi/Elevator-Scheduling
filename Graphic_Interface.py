@@ -10,15 +10,19 @@ def inputElePlan(floor):
             if eachElevator.direction == "DOWN" or eachElevator.direction == "both":
                 distance = abs(floor - eachElevator.head)
             elif eachElevator.direction == "UP":
-                if len(eachElevator.up) != 0: #TODO
+                if len(eachElevator.up) != 0:
                     distance = (eachElevator.up[-1] - eachElevator.head) * 2 + abs(floor - eachElevator.head)
+                else:
+                    distance = abs(floor - eachElevator.head)
 
         elif (floor - eachElevator.head) > 0:
             if eachElevator.direction == "UP" or eachElevator.direction == "both":
                 distance = floor - eachElevator.head
             elif eachElevator.direction == "DOWN":
-                if len(eachElevator.down) != 0: #TODO
+                if len(eachElevator.down) != 0:
                     distance = (eachElevator.head - eachElevator.down[-1]) * 2 + floor - eachElevator.head
+                else:
+                    distance = abs(floor - eachElevator.head)
 
         if (minDistance > distance):
             minDistance = distance
