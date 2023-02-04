@@ -32,7 +32,7 @@ class elevator(threading.Thread):
     def run(self):
         while (True):
             self.inputsHandling()
-            if len(self.up) == 0 and len(self.down) == 0: 
+            if len(self.up) == 0 and len(self.down) == 0:
                 self.direction = "both"
                 continue
 
@@ -63,3 +63,11 @@ class elevator(threading.Thread):
 
     def addInput(self, floor):
         self.inputs.append(floor)
+
+    def checkWhichFirst(self):
+        if(len(self.up) != 0 and len(self.down) != 0 and self.direction == "both"):
+            if(abs(self.head - self.up[0]) < self.head - self.down[0]):
+                self.direction = "UP"
+            else:
+                self.direction = "DOWN"
+
