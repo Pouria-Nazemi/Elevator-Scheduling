@@ -61,7 +61,7 @@ class elevator(threading.Thread):
                 else:
                     # print("up")
                     self.direction = "UP"
-            time.sleep(1.0)
+            time.sleep(2) #TODO change time
 
     def addInput(self, floor):
         self.inputs.append(floor)
